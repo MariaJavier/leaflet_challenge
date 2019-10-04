@@ -11,8 +11,7 @@ d3.json(earthquakeURL, function(earthquakeData)
     var magnitude = earthquakeData.features.map(
       function(i) {return i.properties.mag}); 
     
-    var color = d3.scaleLine
-    ar()
+    var color = d3.scaleLinear()
                   // minimum, midpoint and maximum magnitudes
                   .domain([d3.min(magnitude),(d3.min(magnitude)+d3.max(magnitude))/2,d3.max(magnitude)])
                   .range(['green', 'yellow', 'red']);
@@ -48,7 +47,7 @@ function createFeatures(earthquakeData, tectonicData, color)
   var tectonicPlates = L.geoJSON(tectonicData, 
     {
     color: 'red',
-    fill: false
+    fill: false 
     }); 
   createMap(earthquakes, tectonicPlates, color);
 }
@@ -84,6 +83,7 @@ function createMap(earthquakes, plateLayer, color) {
   };
 
   var map = L.map("map", {
+    maxBounds: [[-90,-180], [90,180]],
     center: [39.5383, -110.4322], // default to Utah area as the center map
     zoom: 5,
     layers: [satellitemap, earthquakes],
